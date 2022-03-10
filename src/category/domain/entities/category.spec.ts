@@ -1,12 +1,13 @@
-import { Category } from "./category";
-import {omit} from 'lodash';
+import { Category, CategoryProperties } from "./category";
+import { omit } from 'lodash';
+import { validate as uuidValidade } from 'uuid'
 
 describe("Category Unit Tests", () => {
 
   test("constructor of category", () => {
-    
+
     //Teste passando apenas Nome
-    let category = new Category({name: 'Movie'});
+    let category = new Category({ name: 'Movie' });
     let props = omit(category.props, 'created_at');
     expect(props).toStrictEqual({
       name: "Movie",
@@ -20,13 +21,13 @@ describe("Category Unit Tests", () => {
 
     //Teste passando  Nome, Descrição, is_active e Data!
     category = new Category({
-      name: 'Movie', 
-      description: 'some description', 
+      name: 'Movie',
+      description: 'some description',
       is_active: false,
     })
     //Criar uma Data para o teste
     let created_at = new Date();
-    expect( category.props).toStrictEqual({
+    expect(category.props).toStrictEqual({
       name: "Movie",
       description: 'some description',
       is_active: false,
@@ -36,8 +37,8 @@ describe("Category Unit Tests", () => {
 
     // Passando apenas Nome e Descrição
     category = new Category({
-      name: 'Movie', 
-      description: 'other description', 
+      name: 'Movie',
+      description: 'other description',
     })
     expect(category.props).toMatchObject({
       name: "Movie",
@@ -47,86 +48,107 @@ describe("Category Unit Tests", () => {
 
     // Passando apenas Nome e is_active
     category = new Category({
-      name: 'Movie', 
-      is_active: true, 
+      name: 'Movie',
+      is_active: true,
     })
-    expect( category.props).toMatchObject({
+    expect(category.props).toMatchObject({
       name: "Movie",
-      is_active: true, 
+      is_active: true,
     });
 
 
     // Passando apenas Nome e created_at
     created_at = new Date();
     category = new Category({
-      name: 'Movie', 
-      created_at, 
+      name: 'Movie',
+      created_at,
     })
-    expect( category.props).toMatchObject({
+    expect(category.props).toMatchObject({
       name: "Movie",
-      created_at, 
+      created_at,
     });
   });
 
 
+  //Testando o ID
+  test('id field', (): void => {
+    
+    type CategoryData = {props: CategoryProperties, id? : string}
+
+    const data : CategoryData[] = [
+      {props: {name: 'Movie'}},
+      {props: {name: 'Movie'}, id: null},
+      {props: {name: 'Movie'}, id: undefined},
+      {props: {name: 'Movie'}, id: 'c04f71fc-b430-4f39-b0fb-c4e172392c68'},
+    ];
+
+    data.forEach(i => {
+      const category = new Category( i.props, i.id);
+      expect(category.id).not.toBeNull();
+      expect(uuidValidade(category.id)).toBeTruthy();
+    });
+  });
+
+
+
   //Testando o Get Name
-  test('getter of name prop', ():void => {
-    const category = new Category({name: 'Movie'});
-    expect(category.name).toBe('Movie'); 
+  test('getter of name prop', (): void => {
+    const category = new Category({ name: 'Movie' });
+    expect(category.name).toBe('Movie');
   })
 
   //Testando o Get e Set Description
-  test('getter and setter description prop', ():void => {
+  test('getter and setter description prop', (): void => {
 
-    let category = new Category({name: 'Movie'});
+    let category = new Category({ name: 'Movie' });
     expect(category.description).toBeNull();
-    
-    category = new Category({name: 'Movie', description: 'some description'});
-    expect(category.description).toBe('some description'); 
 
-    category = new Category({name: 'Movie'});
+    category = new Category({ name: 'Movie', description: 'some description' });
+    expect(category.description).toBe('some description');
+
+    category = new Category({ name: 'Movie' });
     category["description"] = "other description";
-    expect(category.description).toBe('other description'); 
+    expect(category.description).toBe('other description');
 
     category["description"] = undefined;
     expect(category.description).toBeNull();
 
     category["description"] = null;
     expect(category.description).toBeNull();
-    
+
   });
 
 
   //Testando o Get e Set is_active
-  test('getter and setter of is_active prop', (): void =>{
+  test('getter and setter of is_active prop', (): void => {
 
-    let category = new Category({name: 'Movie'});
+    let category = new Category({ name: 'Movie' });
     expect(category.is_active).toBeTruthy();
 
-    category = new Category({name: 'Movie', is_active: true});
+    category = new Category({ name: 'Movie', is_active: true });
     expect(category.is_active).toBeTruthy();
 
-    category = new Category({name: 'Movie', is_active: false});
+    category = new Category({ name: 'Movie', is_active: false });
     expect(category.is_active).toBeFalsy();
 
-    category = new Category({name: 'Movie'});
+    category = new Category({ name: 'Movie' });
     category["is_active"] = false;
     expect(category.is_active).toBeFalsy();
 
-    category = new Category({name: 'Movie'});
+    category = new Category({ name: 'Movie' });
     category["is_active"] = true;
     expect(category.is_active).toBeTruthy();
   });
 
 
   //Testando o Get created_at
-  test('getter of created_at prop', ():void => {
+  test('getter of created_at prop', (): void => {
 
-    let category = new Category({name: 'Movie'});
+    let category = new Category({ name: 'Movie' });
     expect(category.created_at).toBeInstanceOf(Date);
 
     let created_at = new Date();
-    category = new Category({name: 'Movie', created_at});
+    category = new Category({ name: 'Movie', created_at });
     expect(category.created_at).toBe(created_at);
   });
 
