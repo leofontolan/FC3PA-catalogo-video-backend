@@ -1,4 +1,5 @@
 .vscode/
 .history/
+.swc/
 node_modules
 tsconfig.tsbuildinfo
