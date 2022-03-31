@@ -1,4 +1,4 @@
-import {v4 as uuidv4, validate as uuiValidade} from 'uuid'
+import {v4 as uuidv4, validate as uuidValidade} from 'uuid'
 import InvalidUUIDError from '../errors/invalid-uuid.error';
 
 
@@ -6,13 +6,14 @@ export default class UniqueEntityId {
 
     constructor(public readonly id?: string) {
        this.id = id || uuidv4();
+       this.validade();
     }
 
     private validade(){
-        const isValid = uuiValidade(this.id);
+        const isValid = uuidValidade(this.id);
 
         if(!isValid){
-            throw new InvalidUUIDError(this.id);
+            throw new InvalidUUIDError();
         }
     }
 }
