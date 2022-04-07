@@ -44,3 +44,5 @@ export class Category {
     }
 
 }
+
+//Fazendo uma alteração para testar o git lens
