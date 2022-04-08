@@ -41,3 +41,5 @@ RUN echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> ~/.zshrc && \
 
 #segurar o container ativo
 CMD [ "sh", "-c", "npm install && tail -f /dev/null" ]
+
+#testando o git no container
