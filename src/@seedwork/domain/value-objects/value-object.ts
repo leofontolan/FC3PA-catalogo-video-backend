@@ -8,4 +8,17 @@ export default abstract class ValueObject <Value = any> {
     get value(): Value {
         return this._value;
     }
+
+    // Ira sobrescrever o toString() do Objeto que será criado.
+    toString = () => {
+        if (typeof this.value !== "object") {
+            try{
+                return this.value.toString();
+            }catch(e){
+                return this.value+"";
+            }
+        }
+
+        return this.value.toString();
+    };
 }
