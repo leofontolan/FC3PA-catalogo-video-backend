@@ -13,6 +13,7 @@ describe('ValueObject Unit Test', () => {
         vo = new StubValueObject({prop1: 'value1'});
         expect(vo.value).toStrictEqual({prop1: 'value1'});
         
-        console.log(`${new StubValueObject(new Date() )}`);
+        console.log(vo+"");
+        // console.log(`${new StubValueObject(new Date() )}`);
     });
 }); 
